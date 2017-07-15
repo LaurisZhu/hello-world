@@ -1,4 +1,4 @@
-class Demo {
+class JavaBase {
 	public static void main(String[] args) {
 		//验证变量超出范围的情况
 		//byte b = (byte)128;
