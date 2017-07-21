@@ -15,17 +15,16 @@ public class GameProcess {
         gameUI.show();
         //number控制游戏开关
         int number = input.nextInt();
-        //开始游戏
         do {
             gameUI.gameOn(number);
-            if (number == 1) {
+            if (number == 1) {      //开始游戏
               gm.hasNumber();
               int indexnumber = newPlayer.guessNumber();
               while (!gm.judge(indexnumber)) {
                   indexnumber = newPlayer.guessNumber();
               }
               newPlayer.setBestWork(gm.getGuessTimes());
-           } else if (number == 2) {
+           } else if (number == 2) { //重新开始 重复开始游戏的代码
               gm.hasNumber();
               int indexnumber = newPlayer.guessNumber();
               while (!gm.judge(indexnumber)) {
