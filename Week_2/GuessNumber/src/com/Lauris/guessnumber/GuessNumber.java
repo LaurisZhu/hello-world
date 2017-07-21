@@ -7,6 +7,9 @@ public class GuessNumber {
     private int trueNumber;
     private int guessTimes;
 
+    /*
+    * 单例模式的练习
+    * */
     private GuessNumber() {}
 
     private static GuessNumber gm = new GuessNumber();
@@ -15,12 +18,18 @@ public class GuessNumber {
         return  gm;
     }
 
+    /*
+    * 生成一个随机数0~100
+    * */
     public void hasNumber() {
         getGuessNumber().trueNumber = (int)(Math.random()*100);
     }
 
     public int getGuessTimes() {return gm.guessTimes;}
 
+    /*
+    * 判断猜测情况，返回布尔值，功能核心
+    * */
     public boolean judge(int number) {
         getGuessNumber().guessTimes++;
         if (getGuessNumber().trueNumber == number) {
