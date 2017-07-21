@@ -5,18 +5,26 @@ package com.Lauris.guessnumber;
  */
 public class GameUI extends Game {
 
+    /*
+    * 继承意义不大 仅为练习
+    * */
     @Override
     public void start(){
         System.out.println("开始游戏！ 猜数字：0~100");
     }
 
+    /*
+    * 单例模式
+    * */
     private GameUI() {}
     private static GameUI gameUI = new GameUI();
     public static GameUI getGameUI() {
         return gameUI;
     }
 
-
+    /*
+    * 游戏界面
+    * */
     public void show() {
         System.out.println("-------------------");
         System.out.println("开始游戏-----------输入1");
