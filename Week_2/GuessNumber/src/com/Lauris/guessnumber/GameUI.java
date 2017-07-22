@@ -10,7 +10,7 @@ public class GameUI extends Game {
     * */
     @Override
     public void start(){
-        System.out.println("开始游戏！ 猜数字：0~100");
+        System.out.println("开始游戏！ 猜数字：1~100");
     }
 
     /*
@@ -30,6 +30,7 @@ public class GameUI extends Game {
         System.out.println("开始游戏-----------输入1");
         System.out.println("再次开始-----------输入2");
         System.out.println("游戏结束-----------输入3");
+        System.out.println("查看排行榜---------输入4");
     }
 
     public void gameOn(int number) {
