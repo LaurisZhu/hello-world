@@ -18,11 +18,15 @@ public class GuessNumber {
         return  gm;
     }
 
+    public int cheat() {
+        return getGuessNumber().trueNumber;
+    }
+
     /*
     * 生成一个随机数0~100
     * */
     public void hasNumber() {
-        getGuessNumber().trueNumber = (int)(Math.random()*100);
+        getGuessNumber().trueNumber = (int)(Math.random()*100 + 1);
     }
 
     public int getGuessTimes() {return gm.guessTimes;}
