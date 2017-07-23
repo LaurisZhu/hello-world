@@ -20,7 +20,8 @@ public class GameProcess {
             gameUI.gameOn(number);
             if (number == 1) {      //开始游戏
                 oneGame(newPlayer);
-                newPlayer = new Player();  //假设每次游戏都为新玩家，当游戏结束输入用户名相同则判断为同一玩家
+                //假设每次游戏都为新玩家，当游戏结束输入用户名相同则判断为同一玩家
+                newPlayer = new Player();
             } else if (number == 2) { //重新开始 重复开始游戏的代码
                 oneGame(newPlayer);
                 newPlayer = new Player();
@@ -38,7 +39,7 @@ public class GameProcess {
         Scanner input = new Scanner(System.in);
         gm.hasNumber();
         //作弊，显示答案
-        System.out.println(gm.cheat());
+        //System.out.println(gm.cheat());
         int indexNumber = aPlayer.guessNumber();
         while (!gm.judge(indexNumber)) {
             indexNumber = aPlayer.guessNumber();
