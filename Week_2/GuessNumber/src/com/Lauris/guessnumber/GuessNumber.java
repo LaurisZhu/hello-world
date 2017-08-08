@@ -144,14 +144,23 @@ public class GuessNumber {
 
         } catch (IOException e) {
             e.printStackTrace();
+        } finally {
+            if (fw != null) {
+                try {
+                    fw.close();
+                } catch (IOException e){
+                    e.printStackTrace();
+                }
+            }
         }
     }
 
     public void readRank() {
+        BufferedReader bufferedReader = null;
         try {
             String line;
             String[] temp;
-            BufferedReader bufferedReader =
+            bufferedReader =
                     new BufferedReader(new FileReader("rankList.txt"));
             while ((line = bufferedReader.readLine())!=null) {
                 temp =line.split(" ");
@@ -159,6 +168,14 @@ public class GuessNumber {
             }
         } catch (IOException e) {
             e.printStackTrace();
+        } finally {
+            if (bufferedReader != null) {
+                try {
+                    bufferedReader.close();
+                } catch (IOException e){
+                    e.printStackTrace();
+                }
+            }
         }
     }
 }
