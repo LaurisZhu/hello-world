@@ -14,6 +14,7 @@ public class GameProcess {
 
         //number控制游戏开关
         int number;
+        GuessNumber.getGuessNumber().readRank();
         do {
             gameUI.show();
             number = input.nextInt();
@@ -29,6 +30,7 @@ public class GameProcess {
                 GuessNumber.getGuessNumber().showRank();
             }
         } while (number != 3);
+        GuessNumber.getGuessNumber().writeRank();
     }
 
     /**

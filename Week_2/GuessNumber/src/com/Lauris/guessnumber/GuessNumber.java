@@ -1,5 +1,6 @@
 package com.Lauris.guessnumber;
 
+import java.io.*;
 import java.util.*;
 
 /**
@@ -8,11 +9,6 @@ import java.util.*;
 public class GuessNumber {
     private int trueNumber;
     private int guessTimes;
-    /*private static ArrayList<Player> rankList;
-
-    {
-        rankList = new ArrayList<>();
-    }*/
 
     //由于排行榜的增删使用比较多，应该使用LinkedList而不是ArrayList
     private LinkedList<Player> ranklist = new LinkedList<>();
@@ -125,6 +121,44 @@ public class GuessNumber {
                 rankNumber++;
             }
             else break;
+        }
+    }
+
+    //排行榜从文件读写的功能。
+
+    public void writeRank() {
+        Iterator<Player> it = ranklist.iterator();
+        FileWriter fw = null;
+        int temp = 0;
+        try {
+            fw = new FileWriter("rankList.txt");
+            PrintWriter printWriter = new PrintWriter(fw,true);
+            while (it.hasNext()) {
+                if (temp <= 10) {
+                    Player tempPlayer = it.next();
+                    printWriter.format("%s %d",tempPlayer.getPlayerName(),tempPlayer.getBestWork());
+                    printWriter.println("");
+                    temp++;
+                }
+            }
+
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void readRank() {
+        try {
+            String line;
+            String[] temp;
+            BufferedReader bufferedReader =
+                    new BufferedReader(new FileReader("rankList.txt"));
+            while ((line = bufferedReader.readLine())!=null) {
+                temp =line.split(" ");
+                ranklist.add(new Player(temp[0],new Integer(temp[1])));
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
         }
     }
 }

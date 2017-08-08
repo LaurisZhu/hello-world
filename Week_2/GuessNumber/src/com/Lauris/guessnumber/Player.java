@@ -9,6 +9,13 @@ public class Player implements Comparable {
     private String playerName = "Player";
     private int bestWork;
 
+    public Player() {}
+
+    public Player(String name, int score) {
+        setPlayerName(name);
+        setBestWork(score);
+    }
+
     public void setPlayerName(String name) {
         this.playerName = name ;
     }
