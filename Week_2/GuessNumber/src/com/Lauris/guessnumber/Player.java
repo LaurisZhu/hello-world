@@ -5,7 +5,7 @@ import java.util.Scanner;
 /**
  * Created by Lawrence on 2017/7/21.
  */
-public class Player {
+public class Player implements Comparable {
     private String playerName = "Player";
     private int bestWork;
 
@@ -28,4 +28,17 @@ public class Player {
         return input.nextInt();
     }
 
+    //本来想使用TreeSet作为排行榜的容器，因为可以自动排名，若是出现重名，应该复写equals方法。
+    //后来改用简单的LinkedList作为容器，此方法保留未删除。
+    @Override
+    public int compareTo(Object o) {
+        if (!(o instanceof Player))
+            throw new RuntimeException("比较的不是玩家！");
+        Player otherPlayer = (Player)o;
+        if (this.bestWork == otherPlayer.bestWork)
+            return 0;
+        else if (this.bestWork > otherPlayer.bestWork)
+            return 1;
+        else return -1;
+    }
 }
