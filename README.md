@@ -1,6 +1,2 @@
 # hello-world
-This is my first repository
-
-Maybe i can go on.
-
-testing pushing
+> 任务二的猜数字 和 任务三的线程池 均有所更新，精简了以前的代码，添加了一些小功能
