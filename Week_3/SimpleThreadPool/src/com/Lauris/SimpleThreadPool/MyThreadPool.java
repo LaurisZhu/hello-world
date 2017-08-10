@@ -1,6 +1,8 @@
 package com.Lauris.SimpleThreadPool;
 
 import java.util.Iterator;
+import java.util.LinkedList;
+import java.util.List;
 import java.util.Map;
 import java.util.concurrent.*;
 import java.util.concurrent.locks.Lock;
@@ -10,104 +12,66 @@ import java.util.concurrent.locks.ReentrantLock;
  * Created by Lawrence on 2017/7/29.
  */
 public class MyThreadPool implements Executor {
-    private Lock lock = new ReentrantLock();
-    private int corePoolSize = 5;
-    private volatile long keepAliveTime = 10;
-    private volatile Long completedTaskCount;
-    private BlockingQueue<Runnable> taskQueue;
-    private TaskWorker[] taskWorkers;
+    //用于存储需要完成的任务
+    private BlockingQueue<Runnable> taskQueue = new LinkedBlockingDeque<>();
+    //用于存储线程
+    private List<Thread> taskWorkers = new LinkedList<>();
+    private int MAX_SIZE;
 
-
-    public void setCorePoolSize(int corePoolSize) {
-        this.corePoolSize = corePoolSize;
-    }
-
-    public int getCorePoolSize() {
-        return corePoolSize;
-    }
-
-    public Long getCompletedTaskCount() {
-        return completedTaskCount;
-    }
-
-    public int getWaiteTaskCount() {
-        return taskQueue.size();
-    }
 
     public MyThreadPool() {
-        this(4);
+        this(8);
     }
 
-    private MyThreadPool(int corePoolSize) {
+    public MyThreadPool(int corePoolSize) {
         if (corePoolSize < 0) {
             throw new IllegalArgumentException();
         }
-        this.corePoolSize = corePoolSize;
-        taskQueue = new LinkedBlockingDeque<>(8);
-        taskWorkers = new TaskWorker[corePoolSize];
-        for (int i = 0; i < corePoolSize; i++) {
-            taskWorkers[i] = new TaskWorker();
-            taskWorkers[i].start();
-        }
-    }
+        MAX_SIZE = corePoolSize;
 
-    private void startThreadPool() {
-        for (int i = 0; i < corePoolSize; i++) {
-            taskWorkers[i] = new TaskWorker();
-            taskWorkers[i].start();
-        }
-        for (int i=0; i<corePoolSize; i++) {
-            try {
-                Thread.currentThread().join();
-            } catch (InterruptedException e) {
-                System.out.println("屏蔽主线程失败！");
+        //仅在主线程调用的时候定义，缺乏线程池所需的灵活性
+      /*  synchronized (taskWorkers) {
+            while (taskWorkers.size() < MAX_SIZE) {
+                taskWorkers.add(new TaskWorker());
             }
-        }
+        }*/
     }
 
-    private void showAllThread() {
+
+    public void showAllThread() {
         Map map = Thread.getAllStackTraces(); //也可以map<Thread, StackTraceElement[]>
-        System.out.println("当前线程数：" + map.size());
+        int number = map.size();
+       //System.out.println("当前线程数：" + map.size());
         Iterator it = map.keySet().iterator();
         while (it.hasNext()) {
-            Thread t = (Thread) it.next(); //
+            Thread t = (Thread) it.next();
+            if (!t.getName().startsWith("Thread")) {
+                number--;
+                continue;
+            }
             System.out.println(t.getName());
         }
+        System.out.println("线程池线程总数：" + number);
     }
 
+    @Override
     public void execute(Runnable task) {
-        synchronized (this) {
-            try {
-                taskQueue.put(task);
-            } catch (InterruptedException e) {
-                System.out.println("加入队列失败！");
+        //线程锁
+        synchronized (taskWorkers) {
+            while (taskWorkers.size() < MAX_SIZE) {
+                Thread worker = new TaskWorker();
+                taskWorkers.add(worker);
+                worker.start();
             }
-            // notify();
-            showTask();
+        }
+
+        //任务锁
+        synchronized (taskQueue) {
+            taskQueue.add(task);
+            taskQueue.notifyAll();
         }
     }
 
-    public void execute(Runnable[] task) {
-        synchronized (this) {
-            for (int i = 0; i < task.length; i++)
-                try {
-                    taskQueue.put(task[i]);
-                } catch (InterruptedException e) {
-                    System.out.println("加入队列失败！");
-                }
-            //notify();
-        }
-        showTask();
-    }
-
-    private void showTask() {
-        Iterator<Runnable> it = taskQueue.iterator();
-        if (it.hasNext()) {
-            while (it.hasNext()) {
-                it.next().run();
-            }
-        } else System.out.println("链表为空");
-    }
 
     public void destroy() {
         while (!taskQueue.isEmpty()) {
@@ -117,57 +81,52 @@ public class MyThreadPool implements Executor {
                 e.printStackTrace();
             }
         }
-        for (int i = 0; i < corePoolSize; i++) {
-            taskWorkers[i].stopRun();
-            taskWorkers[i] = null;
+        Iterator<Thread> iterator = taskWorkers.iterator();
+        while (iterator.hasNext()) {
+            Thread temp = iterator.next();
+            temp.stop();
         }
-        taskQueue.clear();
-
     }
-
 
     private class TaskWorker extends Thread {
         Runnable r = null;
         private boolean isRunning = true;
-        //private Lock lock = new ReentrantLock();
+
+        public void stopThread() {
+            isRunning = false;
+        }
 
         public void run() {
-            while (isRunning) {
-                //lock.lock();
-                while (isRunning && taskQueue.isEmpty()) {
-                    try {
-                        sleep(20);
-                    } catch (InterruptedException e) {
-                        e.printStackTrace();
+            synchronized (taskQueue) {
+
+                while (isRunning) {
+                    while (taskQueue.isEmpty()) {
+                        try {
+                            taskQueue.wait();
+                        } catch (InterruptedException e) {
+                            e.printStackTrace();
+                        }
                     }
-                }
-                //lock.lock();
-                if (!taskQueue.isEmpty()) {
                     try {
                         r = taskQueue.take();
                     } catch (InterruptedException e) {
                         e.printStackTrace();
                     }
-                }
-                // System.out.println((ReentrantLock)lock);
-                lock.lock();
-                if (r != null) {
-                    r.run();
-                    try {
-                        Thread.sleep(10);
-                    } catch (InterruptedException e) {
-                        System.out.println("线程睡眠失败");
-                    } finally {
-                        lock.unlock();
+                    if (r != null) {
+                        //以下使本线程完成后等待，直到被其他线程唤醒
+                        //使得线程池的多个线程特性更明显
+                        taskQueue.notifyAll();
+                        r.run();
+                        try {
+                            taskQueue.wait();
+                        } catch (InterruptedException e) {
+                            System.out.println("线程等待失败");
+                        }
                     }
+
                 }
             }
         }
-
-        public void stopRun() {
-            isRunning = false;
-        }
-
     }
 }
 
