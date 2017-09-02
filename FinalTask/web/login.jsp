@@ -61,7 +61,7 @@
             border-radius: 5px;
             margin: 0 auto;
         }
-        h6 {
+        h5 {
             color: red;
         }
     </style>
@@ -72,7 +72,7 @@
     <input type="text" name="uuid" placeholder="用户名" />
     <input type="password" name="passwd" placeholder="用户密码" />
     <button type="submit">确认登录</button>
-    <h6>${requestScope.get("msg")}</h6>
+    <h5>${requestScope.get("msg")}</h5>
 </form>
 
 </body>
