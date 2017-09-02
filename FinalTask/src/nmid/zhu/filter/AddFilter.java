@@ -31,6 +31,7 @@ public class AddFilter implements Filter,ControlWord {
         String msg = null;
         RequestDispatcher dispatcher =httpReq.getRequestDispatcher("/index.jsp");
         httpReq.setAttribute("status",CONTROL_ADD);
+
         //对输入信息进行校验
         if ((httpReq.getParameter("major") == null)||name.equals("") || id.equals("") || age.equals("")) {
             msg = "输入不能为空";

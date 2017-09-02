@@ -27,6 +27,7 @@ public class LoginFilter implements Filter {
         String password = httpReq.getParameter("passwd").trim();
 
         RequestDispatcher dispatcher = httpReq.getRequestDispatcher("/login.jsp");
+
         //对输入校验
         String msg=null;
         if (id.equals("") || password.equals("")) {
