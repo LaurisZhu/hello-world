@@ -1,0 +1,103 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<web-app xmlns="http://xmlns.jcp.org/xml/ns/javaee"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/javaee http://xmlns.jcp.org/xml/ns/javaee/web-app_3_1.xsd"
+         version="3.1">
+    <servlet>
+        <servlet-name>LoginServlet</servlet-name>
+        <servlet-class>nmid.zhu.service.LoginServlet</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>LoginServlet</servlet-name>
+        <url-pattern>/loginServlet</url-pattern>
+    </servlet-mapping>
+
+    <servlet>
+        <servlet-name>AddServlet</servlet-name>
+        <servlet-class>nmid.zhu.service.AddServlet</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>AddServlet</servlet-name>
+        <url-pattern>/add</url-pattern>
+    </servlet-mapping>
+    
+    <servlet>
+        <servlet-name>DeleteServlet</servlet-name>
+        <servlet-class>nmid.zhu.service.DeleteServlet</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>DeleteServlet</servlet-name>
+        <url-pattern>/delete</url-pattern>
+    </servlet-mapping>
+
+    <servlet>
+        <servlet-name>ModifyServlet</servlet-name>
+        <servlet-class>nmid.zhu.service.ModifyServlet</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>ModifyServlet</servlet-name>
+        <url-pattern>/modify</url-pattern>
+    </servlet-mapping>
+
+    <servlet>
+        <servlet-name>SearchServlet</servlet-name>
+        <servlet-class>nmid.zhu.service.SearchServlet</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>SearchServlet</servlet-name>
+        <url-pattern>/search</url-pattern>
+    </servlet-mapping>
+
+
+    <filter>
+        <filter-name>LoginFilter</filter-name>
+        <filter-class>nmid.zhu.filter.LoginFilter</filter-class>
+    </filter>
+    <filter-mapping>
+        <filter-name>LoginFilter</filter-name>
+        <url-pattern>/loginServlet</url-pattern>
+    </filter-mapping>
+
+    <filter>
+        <filter-name>AddFilter</filter-name>
+        <filter-class>nmid.zhu.filter.AddFilter</filter-class>
+    </filter>
+    <filter-mapping>
+        <filter-name>AddFilter</filter-name>
+        <url-pattern>/add</url-pattern>
+    </filter-mapping>
+
+    <filter>
+        <filter-name>DeleteFilter</filter-name>
+        <filter-class>nmid.zhu.filter.DeleteFilter</filter-class>
+    </filter>
+    <filter-mapping>
+        <filter-name>DeleteFilter</filter-name>
+        <url-pattern>/delete</url-pattern>
+    </filter-mapping>
+
+    <filter>
+        <filter-name>ModifyFilter</filter-name>
+        <filter-class>nmid.zhu.filter.ModifyFilter</filter-class>
+    </filter>
+    <filter-mapping>
+        <filter-name>ModifyFilter</filter-name>
+        <url-pattern>/modify</url-pattern>
+    </filter-mapping>
+
+    <filter>
+        <filter-name>SearchFilter</filter-name>
+        <filter-class>nmid.zhu.filter.SearchFilter</filter-class>
+    </filter>
+    <filter-mapping>
+        <filter-name>SearchFilter</filter-name>
+        <url-pattern>/search</url-pattern>
+    </filter-mapping>
+
+
+
+
+    <welcome-file-list>
+        <welcome-file>login.jsp</welcome-file>
+    </welcome-file-list>
+</web-app>
