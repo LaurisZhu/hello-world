@@ -29,14 +29,18 @@ public class SearchServlet extends HttpServlet implements ControlWord {
         RequestDispatcher dispatcher = servletContext.getRequestDispatcher("/index.jsp");
 
         ArrayList<Student> students = new ArrayList<>();
+
+        //获取输入
         String name = request.getParameter("name").trim();
         String id = request.getParameter("stdNumber").trim();
         String msg = "";
+
         students = userService.findStudents(name,id);
         if (students == null){
             msg = "找不到该学生";
         }
 
+        //返回查找结果
         request.setAttribute("status",CONTROL_SEARCH);
         request.setAttribute("msg",msg);
         request.setAttribute("students",students);

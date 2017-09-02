@@ -19,7 +19,6 @@ public class LoginServlet extends javax.servlet.http.HttpServlet implements Cont
         response.setContentType("text/html;charset=utf-8");
         UserService userService = new UserService();
         HttpSession session = request.getSession();
-        HashMap<String,String> loginUsers = new HashMap<>();
 
         //获取输入
         String id = request.getParameter("uuid").trim();
@@ -41,8 +40,9 @@ public class LoginServlet extends javax.servlet.http.HttpServlet implements Cont
             Cookie cookie = new Cookie("id",id);
             cookie.setMaxAge(COOKIE_SURVIVAL);
             response.addCookie(cookie);
-            loginUsers.put(request.getRemoteAddr(),id);
-            session.setAttribute("loginUser",loginUsers);
+            session.setAttribute("ip",request.getRemoteAddr());
+            session.setAttribute("id",id);
+            session.setAttribute("isLogin",IS_LOGIN);
             response.setHeader("refresh", "3;url=/index.jsp");
         }
 

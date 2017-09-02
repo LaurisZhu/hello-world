@@ -11,6 +11,12 @@ import java.util.Iterator;
  * Created by Lawrence on 2017/8/30.
  */
 public class UserService {
+    /**
+     * 登陆操作
+     * @param id
+     * @param password
+     * @return
+     */
     public boolean login(String id, String password) {
         DBOperator dbOperator = null;
         try {
@@ -29,6 +35,11 @@ public class UserService {
         return false;
         }
 
+    /**
+     * 添加学生
+     * @param newStudent
+     * @return
+     */
     public synchronized boolean addStudents(Student newStudent) {
         DBOperator dbOperator = null;
         try {
@@ -41,6 +52,11 @@ public class UserService {
         return false;
     }
 
+    /**
+     * 删除学生
+     * @param id
+     * @return
+     */
     public synchronized boolean deleteStudent(String id) {
         DBOperator dbOperator = null;
         try {
@@ -54,6 +70,11 @@ public class UserService {
         return false;
     }
 
+    /**
+     * 修改学生信息
+     * @param oneStudent
+     * @return
+     */
     public synchronized boolean modifyStudent(Student oneStudent) {
         DBOperator dbOperator = null;
         try {
@@ -67,6 +88,12 @@ public class UserService {
         return false;
     }
 
+    /**
+     * 查找学生
+     * @param name
+     * @param id
+     * @return
+     */
     public ArrayList<Student> findStudents(String name, String id) {
         DBOperator dbOperator = null;
         try {
@@ -75,6 +102,8 @@ public class UserService {
             e.printStackTrace();
         }
         ArrayList<Student> students = new ArrayList<>();
+
+        //根据输入情况选择查找数据库的方法
         if (!id.equals("")) {
             Student oneStudent = dbOperator.getStudentByID(id);
             if (oneStudent == null) return null;

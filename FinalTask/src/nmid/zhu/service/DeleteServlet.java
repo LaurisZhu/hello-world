@@ -19,8 +19,6 @@ import java.util.regex.Pattern;
 public class DeleteServlet extends HttpServlet implements ControlWord {
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         UserService userService = new UserService();
-        ServletContext servletContext = getServletContext();
-        RequestDispatcher dispatcher = servletContext.getRequestDispatcher("/index.jsp");
         //设置格式
 //        request.setCharacterEncoding("utf-8");
 //        response.setContentType("text/html;charset=utf-8");
@@ -34,9 +32,11 @@ public class DeleteServlet extends HttpServlet implements ControlWord {
         } else {
             msg = "删除失败";
         }
+
+        //将操作结果返回该页面
         request.setAttribute("status",CONTROL_DELETE);
         request.setAttribute("msg",msg);
-        dispatcher.forward(request,response);
+        getServletContext().getRequestDispatcher("/index.jsp").forward(request,response);
     }
 
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {

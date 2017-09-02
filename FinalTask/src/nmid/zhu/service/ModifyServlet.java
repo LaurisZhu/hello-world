@@ -22,22 +22,25 @@ public class ModifyServlet extends HttpServlet implements ControlWord {
         request.setCharacterEncoding("utf-8");
         response.setContentType("text/html;charset=utf-8");
         UserService userService = new UserService();
-        ServletContext servletContext = getServletContext();
-        RequestDispatcher dispatcher = servletContext.getRequestDispatcher("/index.jsp");
 
+        //获取输入
         String name = request.getParameter("name").trim();
         String age = request.getParameter("age").trim();
         String id = request.getParameter("stdNumber").trim();
         String major = request.getParameter("major").trim();
         String msg = "";
+
+        //判断修改结果
         if (userService.modifyStudent(new Student(name,new Integer(age),id,major))) {
             msg = "修改成功";
         } else {
             msg = "修改失败";
         }
+
+        //返回修改结果
         request.setAttribute("status",CONTROL_MODIFY);
         request.setAttribute("msg",msg);
-        dispatcher.forward(request,response);
+        getServletContext().getRequestDispatcher("/index.jsp").forward(request,response);
     }
 
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {

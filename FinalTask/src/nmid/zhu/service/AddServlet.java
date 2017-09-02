@@ -27,6 +27,8 @@ public class AddServlet extends HttpServlet implements ControlWord {
         RequestDispatcher dispatcher = servletContext.getRequestDispatcher("/index.jsp");
 
         UserService userService = new UserService();
+
+        //获取输入
         String name = request.getParameter("name").trim();
         String age = request.getParameter("age").trim();
         String id = request.getParameter("stdNumber").trim();
@@ -37,6 +39,7 @@ public class AddServlet extends HttpServlet implements ControlWord {
         } else {
             msg = "添加失败";
         }
+        //将操作结果返回该页面
         request.setAttribute("status",CONTROL_ADD);
         request.setAttribute("msg",msg);
         dispatcher.forward(request,response);
