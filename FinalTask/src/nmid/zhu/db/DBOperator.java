@@ -101,11 +101,17 @@ public class DBOperator {
         return null;
     }
 
+    /**
+     * 通过学号查找学生信息
+     * @param id 学号
+     * @return 学生对象
+     */
     public Student getStudentByID(String id) {
         Connection conn = null;
         PreparedStatement prepStmt = null;
         ResultSet rs = null;
         Student oneStudent = null;
+        //判断标志
         int temp = 0;
         try {
             conn = getConnection();
@@ -124,14 +130,21 @@ public class DBOperator {
             closePrepStmt(prepStmt);
             closeConnection(conn);
         }
+        //当temp == 0，说明没有查到该学生
         if (temp == 0) return null;
         return oneStudent;
     }
 
+    /**
+     * 通过姓名查找学生
+     * @param name 姓名
+     * @return 存储学生对象的集合
+     */
     public ArrayList<Student> getStudentsByName(String name) {
         Connection conn = null;
         PreparedStatement prepStmt = null;
         ResultSet rs = null;
+        //判断标志位
         int temp = 0;
         ArrayList<Student> studentFound = new ArrayList<>();
         try {
@@ -152,6 +165,8 @@ public class DBOperator {
             closePrepStmt(prepStmt);
             closeConnection(conn);
         }
+
+        //当temp == 0，说明没有查到该学生
         if (temp==0) {
             return null;
         }
@@ -159,6 +174,11 @@ public class DBOperator {
         return studentFound;
     }
 
+    /**
+     * 添加学生
+     * @param newStudent
+     * @return
+     */
     public boolean addStudetns(Student newStudent) {
         Connection conn = null;
         PreparedStatement prepStmt = null;
@@ -181,6 +201,11 @@ public class DBOperator {
 
     }
 
+    /**
+     * 删除学生
+     * @param id
+     * @return
+     */
     public boolean deleteStudetns(String id) {
         Connection conn = null;
         PreparedStatement prepStmt = null;
@@ -200,6 +225,11 @@ public class DBOperator {
         return temp == 1;
     }
 
+    /**
+     * 修改学生信息
+     * @param oneStudent
+     * @return
+     */
     public boolean modifyStudent(Student oneStudent) {
         Connection conn = null;
         PreparedStatement preStmt = null;
