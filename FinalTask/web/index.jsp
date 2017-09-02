@@ -2,7 +2,6 @@
 <%@ page import="nmid.zhu.pojo.Student" %>
 <%@ page import="java.util.Iterator" %>
 <%@ page import="nmid.zhu.service.ControlWord" %>
-<%@ page import="java.util.HashMap" %>
 <%--
   Created by IntelliJ IDEA.
   User: Lawrence
@@ -237,7 +236,7 @@
                 Student student = iterator.next();
       %>
       <tr>
-        <td><%= student.getName()%></td>
+        <td><a href="#"><%= student.getName()%></a> </td>
         <td><%= student.getAge()%></td>
         <td><%= student.getId()%></td>
         <td><%= student.getMajor()%></td>

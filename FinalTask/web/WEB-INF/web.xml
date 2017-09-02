@@ -94,10 +94,18 @@
         <url-pattern>/search</url-pattern>
     </filter-mapping>
 
+    <filter>
+        <filter-name>LoginControlFilter</filter-name>
+        <filter-class>nmid.zhu.filter.LoginControlFilter</filter-class>
+    </filter>
+    <filter-mapping>
+        <filter-name>LoginControlFilter</filter-name>
+        <url-pattern>/index.jsp</url-pattern>
+    </filter-mapping>
 
 
 
-    <welcome-file-list>
-        <welcome-file>login.jsp</welcome-file>
-    </welcome-file-list>
+    <!--<welcome-file-list>-->
+        <!--<welcome-file>login.jsp</welcome-file>-->
+    <!--</welcome-file-list>-->
 </web-app>
