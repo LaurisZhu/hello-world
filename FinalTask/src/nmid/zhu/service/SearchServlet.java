@@ -36,6 +36,7 @@ public class SearchServlet extends HttpServlet implements ControlWord {
         if (students == null){
             msg = "找不到该学生";
         }
+
         request.setAttribute("status",CONTROL_SEARCH);
         request.setAttribute("msg",msg);
         request.setAttribute("students",students);
