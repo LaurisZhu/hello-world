@@ -31,12 +31,7 @@ public class LoginControlFilter implements Filter,ControlWord {
         HttpSession session = request.getSession();
         Cookie[] cookies1 = request.getCookies();
         Cookie idCookie = null;
-        for (Cookie cookie:cookies1
-             ) {
-            if (cookie.getName().equals("id")){
-                idCookie = cookie;
-            }
-        }
+
         //获取用户ip
         String request_ip = request.getRemoteAddr();
         RequestDispatcher dispatcher = request.getRequestDispatcher("/login.jsp");
@@ -44,6 +39,17 @@ public class LoginControlFilter implements Filter,ControlWord {
         String loginStatus = (String)session.getAttribute("isLogin");
         String userIP = (String) session.getAttribute("ip");
         String userID = (String) session.getAttribute("id");
+
+        if (cookies1 == null) {
+            dispatcher.forward(request,response);
+        }
+        for (Cookie cookie:cookies1
+                ) {
+            if (cookie.getName().equals("id")){
+                idCookie = cookie;
+            }
+        }
+
 
         //游览器有无cookie_id 存储
         if (idCookie == null) {

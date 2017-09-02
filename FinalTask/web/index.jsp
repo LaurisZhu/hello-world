@@ -10,7 +10,7 @@
   To change this template use File | Settings | File Templates.
 --%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
-<%--<%@ page errorPage="error.jsp" %>--%>
+<%@ page errorPage="error.jsp" %>
 <html lang="en">
 
 <!-- head标签中包含的信息无需改动 -->
@@ -236,7 +236,7 @@
                 Student student = iterator.next();
       %>
       <tr>
-        <td><a href="#"><%= student.getName()%></a> </td>
+        <td><%= student.getName()%></td>
         <td><%= student.getAge()%></td>
         <td><%= student.getId()%></td>
         <td><%= student.getMajor()%></td>
